@@ -3,18 +3,23 @@ stages:
 
 mirror-to-github:
   stage: mirror
+  variables:
+    GIT_DEPTH: 0   # full clone, needed for mirroring
   script:
-    # Configure Git identity
     - git config --global user.email "gitlab-ci@testing.com"
     - git config --global user.name "GitLab CI"
 
-    # Add GitHub remote using the PAT from CI/CD variables
     - git remote remove github || true
     - git remote add github https://oauth2:${GITHUB_TOKEN}@github.com/ratheeshpr89/Testing_me.git
 
-    # Push everything (branches + tags)
-    - git push --mirror github
+    # Debug info
+    - git fetch --all
+    - git remote -v
+    - git log --oneline | head -n 5
+
+    # Push with verbosity
+    - git push --mirror github -v
   only:
     - schedules
   tags:
-    - git_hub_mirror   # 👈 match the runner's tag
+    - git_hub_mirror
