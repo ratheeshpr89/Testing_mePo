@@ -4,7 +4,7 @@ stages:
 mirror-to-github:
   stage: mirror
   variables:
-    GIT_DEPTH: 0   # full clone, needed for mirroring
+    GIT_DEPTH: 0   # ensure full repo
   script:
     - git config --global user.email "gitlab-ci@testing.com"
     - git config --global user.name "GitLab CI"
@@ -12,13 +12,13 @@ mirror-to-github:
     - git remote remove github || true
     - git remote add github https://oauth2:${GITHUB_TOKEN}@github.com/ratheeshpr89/Testing_me.git
 
-    # Debug info
     - git fetch --all
     - git remote -v
-    - git log --oneline | head -n 5
 
-    # Push with verbosity
-    - git push --mirror github -v
+    # Push main branch explicitly
+    - git push github HEAD:refs/heads/main
+    # Push all tags
+    - git push github --tags
   only:
     - schedules
   tags:
