@@ -1,0 +1,18 @@
+stages:
+  - mirror
+
+mirror-to-github:
+  stage: mirror
+  script:
+    # Configure Git identity
+    - git config --global user.email "gitlab-ci@testing.com"
+    - git config --global user.name "GitLab CI"
+
+    # Add GitHub remote using the PAT from CI/CD variables
+    - git remote remove github || true
+    - git remote add github https://oauth2:${GITHUB_TOKEN}@github.com/ratheeshpr89/Testing_me.git
+
+    # Push everything (branches + tags)
+    - git push --mirror github
+  only:
+    - schedules
