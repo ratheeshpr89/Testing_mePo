@@ -16,3 +16,5 @@ mirror-to-github:
     - git push --mirror github
   only:
     - schedules
+  tags:
+    - git_hub_mirror   # 👈 match the runner's tag
