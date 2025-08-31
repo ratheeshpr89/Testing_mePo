@@ -18,7 +18,8 @@ mirror-to-github:
     - git fetch origin "+refs/heads/*:refs/remotes/origin/*"
 
     # Push all branches to GitHub
-    - git push github refs/remotes/origin/*:refs/heads/*
+    - git push github --force refs/remotes/origin/*:refs/heads/*
+
 
     # Push all tags
     - git push github --tags
