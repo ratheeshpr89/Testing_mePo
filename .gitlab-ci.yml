@@ -1,26 +1,28 @@
 stages:
   - mirror
+
 mirror-to-github:
   stage: mirror
   variables:
-    GIT_DEPTH: 0   # fetch full history
+    GIT_STRATEGY: clone
+    GIT_DEPTH: 0
   script:
-    # Set Git identity
     - git config --global user.email "gitlab-ci@testing.com"
     - git config --global user.name "GitLab CI"
-    # Remove old remote if exists, then add GitHub remote
+
+    # Add GitHub remote
     - git remote remove github || true
     - git remote add github https://ratheeshpr89:${GITHUB_TOKEN}@github.com/ratheeshpr89/Testing_mePo.git
-    # Fetch all branches from GitLab
-    - git fetch origin "+refs/heads/*:refs/remotes/origin/*"
-    # Push all branches to GitHub
-    - git push github --force refs/remotes/origin/*:refs/heads/*
-    # Push all tags
+
+    # Push branches
+    - git push github --all
+
+    # Push tags
     - git push github --tags
-    # Optional: verify remotes
-    - git remote -v
-  only:
-    - schedules
+
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+
   tags:
     - git_hub_mirror
 
