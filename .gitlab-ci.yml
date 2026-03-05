@@ -11,7 +11,7 @@ mirror-to-github:
     - git config --global user.name "GitLab CI"
 
     - git remote remove github || true
-    - git remote add github https://ratheeshpr89:${GITHUB_TOKEN}@github.com/ratheeshpr89/Testing_mePo.git
+    - git remote add github https://oauth2:${GITHUB_TOKEN}@github.com/ratheeshpr89/Testing_mePo.git
 
     # Push the same branch that triggered the pipeline
     - git push github HEAD:$CI_COMMIT_REF_NAME
