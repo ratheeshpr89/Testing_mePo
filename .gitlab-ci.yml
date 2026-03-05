@@ -13,10 +13,10 @@ mirror-to-github:
     - git remote remove github || true
     - git remote add github https://oauth2:${GITHUB_TOKEN}@github.com/ratheeshpr89/Testing_mePo.git
 
-    # Push the same branch that triggered the pipeline
-    - git push github HEAD:$CI_COMMIT_REF_NAME
+    # push the branch that triggered the pipeline
+    - git push github HEAD:$CI_COMMIT_REF_NAME --force
 
-    # Push tags
+    # push tags
     - git push github --tags
 
   rules:
